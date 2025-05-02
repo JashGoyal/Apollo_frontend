@@ -1,4 +1,5 @@
 'use client';
+
 import Header from "./components/Header";
 import FiltersSidebar from "./components/FilterSideBar";
 import DoctorCards from "./components/DoctorCards";
@@ -6,9 +7,44 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from "next/link";
 
+type Doctor = {
+  _id: string;
+  name: string;
+  specialization: string;
+  experience: number;
+  qualifications: string[];
+  fees: number;
+  cashback: number;
+  languagesSpoken: string[];
+  profileImage: string;
+  clinicName: string;
+  rating: number;
+  totalReviews: number;
+  location: {
+    city: string;
+    state: string;
+  };
+  availability: {
+    online: boolean;
+    hospitalVisit: boolean;
+    nextAvailableInMinutes: number;
+  };
+};
+
+type Filters = {
+  specialization: string;
+  minExperience: string;
+  maxFees: string;
+  language: string;
+  consultMode: {
+    hospitalVisit: boolean;
+    online: boolean;
+  };
+};
+
 export default function Home() {
-  const [apollo, setApollo] = useState([]);
-  const [filters, setFilters] = useState({
+  const [apollo, setApollo] = useState<Doctor[]>([]);
+  const [filters, setFilters] = useState<Filters>({
     specialization: '',
     minExperience: '',
     maxFees: '',
@@ -18,7 +54,7 @@ export default function Home() {
       online: false,
     },
   });
-  const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [filteredDoctors, setFilteredDoctors] = useState<Doctor[]>([]);
 
   useEffect(() => {
     const url = "https://apollo-backend-rsst.onrender.com/api/doctors/all";
@@ -57,18 +93,22 @@ export default function Home() {
 
     if (filters.language) {
       filtered = filtered.filter(doc =>
-        doc.languagesSpoken && doc.languagesSpoken.some(lang => lang.toLowerCase() === filters.language.toLowerCase())
+        doc.languagesSpoken &&
+        doc.languagesSpoken.some(
+          lang => lang.toLowerCase() === filters.language.toLowerCase()
+        )
       );
     }
 
     if (filters.consultMode.hospitalVisit || filters.consultMode.online) {
       filtered = filtered.filter(doc => {
+        if (!doc.availability) return false;
         if (filters.consultMode.hospitalVisit && filters.consultMode.online) {
-          return (doc.availability && (doc.availability.hospitalVisit || doc.availability.online));
+          return doc.availability.hospitalVisit || doc.availability.online;
         } else if (filters.consultMode.hospitalVisit) {
-          return doc.availability && doc.availability.hospitalVisit;
+          return doc.availability.hospitalVisit;
         } else if (filters.consultMode.online) {
-          return doc.availability && doc.availability.online;
+          return doc.availability.online;
         }
         return true;
       });
@@ -77,7 +117,7 @@ export default function Home() {
     setFilteredDoctors(filtered);
   }, [apollo, filters]);
 
-  const handleFilter = (newFilters) => {
+  const handleFilter = (newFilters: Filters) => {
     setFilters(newFilters);
   };
 
