@@ -1,11 +1,11 @@
 'use client';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 export default function DoctorCard({ doctor }) {
   return (
     <div className="border border-gray-200 rounded-2xl p-6 bg-white flex items-start gap-6 shadow-md">
 
-      <Image
+      <img
         src={doctor.profileImage}
         alt={doctor.name}
         width={100}
