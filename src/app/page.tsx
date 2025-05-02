@@ -2,7 +2,6 @@
 import Header from "./components/Header";
 import FiltersSidebar from "./components/FilterSideBar";
 import DoctorCards from "./components/DoctorCards";
-import AddDoctor from "./components/AddDoctor";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from "next/link";
