@@ -2,7 +2,7 @@ import { FaSearch, FaMapMarkerAlt, FaUser } from "react-icons/fa";
 
 export default function Header() {
     return (
-        <header className="border-b shadow-sm border-gray-300">
+        <header className="fixed top-0 border-b shadow-sm border-gray-300">
             <div className="flex items-center border-b shadow-sm border-gray-300 mx-auto justify-evenly p-3 px-6 bg-white">
 
                 <div className="flex items-center gap-6">
