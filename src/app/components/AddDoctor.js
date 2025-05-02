@@ -98,7 +98,7 @@ export default function AddDoctor() {
         };
 
         try {
-            await axios.post('http://192.168.1.3:5000/api/doctors/adddoctor', payload);
+            await axios.post('https://apollo-backend-rsst.onrender.com/api/doctors/adddoctor', payload);
             alert('Doctor added successfully!');
             setFormData({
                 name: '',

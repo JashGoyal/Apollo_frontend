@@ -22,7 +22,7 @@ export default function Home() {
   const [filteredDoctors, setFilteredDoctors] = useState([]);
 
   useEffect(() => {
-    const url = "http://192.168.1.3:5000/api/doctors/all";
+    const url = "https://apollo-backend-rsst.onrender.com/api/doctors/all";
     const fetchDoctors = async () => {
       try {
         const res = await axios.get(url);
